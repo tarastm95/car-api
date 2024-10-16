@@ -31,7 +31,7 @@ function App() {
                     <div key={car.id}>{JSON.stringify(car)}</div>
                 ))
             ) : (
-                <div>No cars found or data is not in the correct format.</div>
+                <div>No cars were found, or the data is in the incorrect format.</div>
             )}
         </div>
     );
