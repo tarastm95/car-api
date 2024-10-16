@@ -1,0 +1,40 @@
+# Системні файли
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Папка віртуального середовища
+.venv/
+venv/
+
+# Файли конфігурації середовища
+.env
+.env.example  # Можна виключити, якщо це зразок із публічними даними
+
+# Артефакти та тимчасові файли
+*.log
+*.sqlite3
+
+# Docker
+*.pid
+db_data/  # Якщо використовуєте volume для MySQL/бази даних
+mysql_db/  # Якщо це дані самої бази, не потрібні в репозиторії
+mysql_db/mysql.sock
+
+# Сервісні файли PyCharm та інші IDE
+.idea/
+.vscode/
+
+# Nginx кеш/файли
+nginx.conf~
+
+# Poetry
+poetry.lock  # Опціонально, якщо не хочете фіксувати конкретні версії залежностей
+
+# Node.js (якщо використовуєте frontend)
+node_modules/
+dist/
+build/
+
+# Файли Docker
+docker-compose.override.yml  # Може містити локальні зміни
