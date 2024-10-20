@@ -1,40 +1,44 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function App() {
+const App = () => {
     const [cars, setCars] = useState([]);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('/api/cars')
-            .then(({ data }) => {
-                console.log("Received data:", data); // Логування отриманих даних
-                // Тепер використовуємо data.data, щоб отримати масив автомобілів
-                if (Array.isArray(data.data)) {
-                    setCars(data.data); // Якщо дані — це масив
-                } else {
-                    setError("Invalid data format");
-                }
-            })
-            .catch((error) => {
-                console.error("There was an error fetching the cars!", error);
-                setError("Failed to fetch cars");
-            });
+        axios.get('/api/cars').then(({ data }) => {
+            setCars(data.data); // Access the 'data' array within the response
+        });
     }, []);
 
     return (
-        <div className="App">
-            {error && <div className="error">{error}</div>}
-            {Array.isArray(cars) && cars.length > 0 ? (
+        <div>
+            <h1>Cars</h1>
+            {cars.length > 0 ? (
                 cars.map(car => (
-                    <div key={car.id}>{JSON.stringify(car)}</div>
+                    <div key={car.id} style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
+                        <h3>{car.model} ({car.year})</h3>
+                        <p>Body Type: {car.body_type}</p>
+                        <p>Price: ${car.price}</p>
+                        {car.photos.length > 0 && (
+                            <div>
+                                <h4>Photos:</h4>
+                                {car.photos.map((photo, index) => (
+                                    <img
+                                        key={index}
+                                        src={photo.photo}
+                                        alt={`${car.model} - ${index + 1}`}
+                                        style={{ width: '100px', margin: '5px' }}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 ))
             ) : (
-                <div>No cars were found, or the data is in the incorrect format.</div>
+                <p>No cars available</p> // Message if no cars are present
             )}
         </div>
     );
-}
+};
 
-export default App;
+export { App };

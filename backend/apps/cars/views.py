@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 
 from rest_framework import status
-from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
 from apps.cars.models import CarModel
@@ -12,7 +12,7 @@ from apps.cars.serializers import CarSerializer, CarPhotoSerializer
 from .filters import CarFilter
 
 @method_decorator(name='get', decorator=swagger_auto_schema(security=[]))
-class CarListView(ListAPIView):
+class CarListView(ListCreateAPIView):
     """
         get:
             Get car by id
@@ -27,6 +27,10 @@ class CarListView(ListAPIView):
     serializer_class = CarSerializer
     filterset_class = CarFilter
     permission_classes = (AllowAny,)
+
+    def perform_create(self, serializer):
+        serializer.save(auto_park_id=1)
+        super().perform_create(serializer)
 
 
 class CarRetrieveUpdateDestroyView(GenericAPIView):
